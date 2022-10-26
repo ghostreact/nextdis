@@ -9,7 +9,7 @@ export default function Home() {
     <div className={styles.back}>
       <Card>
         {/* <Image src={wave} alt='blank'/> */}
-        <Button>ok</Button>
+       
       </Card>
       
     </div>
