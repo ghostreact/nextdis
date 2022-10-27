@@ -130,12 +130,19 @@
 .back {
   background-image: url("/wave.svg");
   height: 100vh;
-  overflow: hidden;
   background-repeat: no-repeat;
   background-position: bottom;
   animation: puff-in-center 7s cubic-bezier(0.075, 0.090, 0.200, 1) ;
   
 }
+
+.backabout {
+  background-image: url("/wave.svg");
+  
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
 
 /* @-webkit-keyframes puff-in-center {
   0% {
@@ -158,8 +165,8 @@
   0% {
     -webkit-transform: scale(0);
             transform: scale(1);
-    -webkit-filter: blur(4px);
-            filter: blur(4px);
+    -webkit-filter: blur(2px);
+            filter: blur(2px);
     opacity: 0;
   }
   100% {
