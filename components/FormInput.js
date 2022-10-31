@@ -7,69 +7,63 @@ import {
   Spacer,
 } from "@nextui-org/react";
 import { useState } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 
 export default function FormInput() {
   const [name, setName] = useState(null);
-  const [lastName, setLastName] = useState(null);
+
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const [description, setDescription] = useState(null);
 
-  const headerSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const body = { name, lastName, email, username, password };
-      await fetch(`/api/create`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      name : "",
+      email : "",
+      username : "",
+      password : "",
+      description : "",
+    },
+  });
 
-  const headerName = (e) => {
-    setName(e.target.value);
-  };
+  const onSubmit = async (data) => {
+    const body = {
+      name,
 
-  const headerLastName = (e) => {
-    setLastName(e.target.value);
-  };
-
-  const headerEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const headerUsername = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const headerPassword = (e) => {
-    setPassword(e.target.value);
+      email,
+      username,
+      password,
+      description,
+    };
+    reset()
+    console.log(data);
+    await axios.post(`/api/create`, { ...body });
+     
   };
 
   return (
     <Container>
       <Spacer y={2} />
       <Card variant="bordered">
-        <form onSubmit={headerSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid.Container gap={3} justify="center">
             <Grid>
               <Input
                 bordered
                 label="Name"
                 placeholder="Name"
-                onChange={headerName}
-              />
-            </Grid>
-
-            <Grid>
-              <Input
-                bordered
-                label="LastName"
-                placeholder="LastName"
-                onChange={headerLastName}
+                {...register("Name", {
+                  required: "Required",
+                })}
+                onChange={(e) => setName(e.target.value)}
               />
             </Grid>
 
@@ -79,8 +73,17 @@ export default function FormInput() {
                   bordered
                   label="Email"
                   placeholder="Email"
-                  onChange={headerEmail}
+                  type="email"
+                  {...register("email", {
+                    required: "Required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "invalid email address",
+                    },
+                  })}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
+                {errors.email && errors.email.message}
               </Grid>
 
               <Grid>
@@ -88,8 +91,13 @@ export default function FormInput() {
                   bordered
                   label="Username"
                   placeholder="Username"
-                  onChange={headerUsername}
+                  type={"text"}
+                  {...register("Username", {
+                    required: "Required",
+                  })}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
+                {errors.Username && errors.Username.message}
               </Grid>
             </Grid.Container>
 
@@ -99,7 +107,10 @@ export default function FormInput() {
                   bordered
                   label="Password"
                   placeholder="Password"
-                  onChange={headerPassword}
+                  {...register("Password", {
+                    required: "Required",
+                  })}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
               {/* <Grid>
@@ -111,12 +122,26 @@ export default function FormInput() {
                 />
               </Grid> */}
             </Grid.Container>
-          </Grid.Container>
-        </form>
 
-        <Button>Submit</Button>
-        <Spacer y={0.3} />
-        <Button color={"error"}>Cancle</Button>
+            <Grid.Container gap={3} justify="center">
+              <Grid>
+                <Input.Textarea
+                  bordered
+                  label="description"
+                  placeholder="description"
+                  {...register("Description", {
+                    required: "Required",
+                  })}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Grid>
+            </Grid.Container>
+          </Grid.Container>
+
+          <button type="submit">Submit</button>
+          <Spacer y={0.3} />
+          <Button color={"error"}>Cancel</Button>
+        </form>
       </Card>
     </Container>
   );
