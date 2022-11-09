@@ -3,17 +3,24 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default async function create(req, res) {
-  const { name, username, password, email, description } = req.body;
-  const result = await prisma.member.create({
+  const { username, password, email } = req.body;
+  const result = await prisma.user.create({
     data: {
-      name: name,
-
       username: username,
       password: password,
       email: email,
-      description: description,
     },
   });
   res.status(200).json(result);
   console.log(result);
+
+  // const {name, userid} = req.body
+  // const createData = await prisma.profile.create({
+  //   data:{
+  //     name : name,
+  //    // userid:userid
+  //   }
+  // })
+  // console.log(createData);
+  // res.status(200).json(createData)
 }

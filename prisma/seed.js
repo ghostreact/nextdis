@@ -3,20 +3,34 @@ import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
-const fakerUser = () => ({
-  name: faker.name.firstName(),
-  lastname: faker.name.lastName(),
-  username: faker.name.firstName(),
-  password: faker.internet.password(),
-  email: faker.internet.email(),
-});
 
-async function main() {
+// const fakerUser = () => ({
+//   username: faker.name.firstName(),
+//   password: faker.internet.password(),
+//   email: faker.internet.email(),
+// });
+
+const fakerProfile = () => ({
+  name : faker.name.firstName(),
+  userid : faker.internet.mac,
+})
+
+// async function main() {
+//   const fakerRound = 100;
+//   console.log("Seeding...");
+//   for (let i = 0; i < fakerRound; i++) {
+//     await prisma.User.create({
+//       data: fakerUser(),
+//     });
+//   }
+// }
+
+async function main(){
   const fakerRound = 100;
   console.log("Seeding...");
   for (let i = 0; i < fakerRound; i++) {
-    await prisma.member.create({
-      data: fakerUser(),
+    await prisma.profile.create({
+      data: fakerProfile(),
     });
   }
 }
@@ -26,3 +40,5 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+
