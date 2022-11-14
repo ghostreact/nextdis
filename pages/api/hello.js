@@ -6,9 +6,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   const getdata = await prisma.user.findMany({
-    include: {
-      proflie: true,
-    },
+    include: { report: true },
   });
   // res.status(200).json({ name: 'John Doe' })
   console.log(getdata);

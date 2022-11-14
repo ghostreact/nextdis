@@ -8,11 +8,13 @@ const prisma = new PrismaClient();
 //   username: faker.name.firstName(),
 //   password: faker.internet.password(),
 //   email: faker.internet.email(),
+//   phone : faker.phone.number()
 // });
 
-const fakerProfile = () => ({
-  name : faker.name.firstName(),
-  userid : faker.internet.mac,
+const fakerReport = () => ({
+  title : faker.finance.accountName,
+  content : faker.lorem.paragraph,
+  //profileID: faker.finance.pin
 })
 
 // async function main() {
@@ -26,11 +28,11 @@ const fakerProfile = () => ({
 // }
 
 async function main(){
-  const fakerRound = 100;
+  const fakerRound = 50;
   console.log("Seeding...");
   for (let i = 0; i < fakerRound; i++) {
-    await prisma.profile.create({
-      data: fakerProfile(),
+    await prisma.report.create({
+      data: fakerReport(),
     });
   }
 }

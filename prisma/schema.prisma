@@ -8,21 +8,20 @@ datasource db {
 }
 
 model User {
-  //id          Int      @id @default(autoincrement())
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  username    String    @unique
   email       String    @unique
   password    String
-  username    String    @unique
+  phone String
   date_Create DateTime  @default(now())
-  // userID      String  @id @db.ObjectId @default(auto())
-  proflie     Profile[]
+  report     Report[]
 }
 
-model Profile {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-
-  profileID   String?  @db.ObjectId
+model Report {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  content String
   date_Create DateTime @default(now())
-  user        User?    @relation(fields: [profileID], references: [id])
+  author        User?    @relation(fields: [profileID], references: [id])
+  profileID   String?  @db.ObjectId
 }

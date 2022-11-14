@@ -132,7 +132,7 @@
   height: 100vh;
   background-repeat: no-repeat;
   background-position: bottom;
-  animation: puff-in-center 7s cubic-bezier(0.075, 0.090, 0.200, 1) ;
+  animation: puff-in-center 7s cubic-bezier(0.075, 0.090, 0.200, 4) ;
   
 }
 

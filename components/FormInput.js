@@ -11,95 +11,90 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 
 export default function FormInput() {
-  const [name, setName] = useState(null);
-
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [phone, setPhone] = useState(null);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      name : "",
-      email : "",
-      username : "",
-      password : "",
-      description : "",
-    },
-  });
+  } = useForm();
 
   const onSubmit = async (data) => {
     const body = {
-      name,
-
       email,
       username,
       password,
-      description,
+      phone,
     };
-    reset()
+    reset();
     console.log(data);
     await axios.post(`/api/create`, { ...body });
-     
   };
 
   return (
     <Container>
       <Spacer y={2} />
-      <Card variant="bordered">
+      <Grid.Container justify="center">
+
+      
+      <Card variant="bordered" css={{
+        "@lg": { w:"50vw"},
+        "@md" : {W:"50vw"},
+        "@sm" : {W:"50vw"},
+        "@xs" : {W:"50vw"},
+
+      }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid.Container gap={3} justify="center">
-            <Grid>
-              <Input
-                bordered
-                label="Name"
-                placeholder="Name"
-                {...register("Name", {
-                  required: "Required",
-                })}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </Grid>
-
-            <Grid.Container gap={3} justify="center">
-              <Grid>
+            <Grid.Container justify="center">
+              <Grid >
                 <Input
                   bordered
-                  label="Email"
-                  placeholder="Email"
-                  type="email"
-                  {...register("email", {
-                    required: "Required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "invalid email address",
-                    },
-                  })}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {errors.email && errors.email.message}
-              </Grid>
-
-              <Grid>
-                <Input
-                  bordered
-                  label="Username"
-                  placeholder="Username"
-                  type={"text"}
-                  {...register("Username", {
+                  label="UserName"
+                  placeholder="UserName"
+                  {...register("UserName", {
                     required: "Required",
                   })}
                   onChange={(e) => setUsername(e.target.value)}
                 />
-                {errors.Username && errors.Username.message}
               </Grid>
             </Grid.Container>
+
+            <Grid>
+              <Input
+                bordered
+                label="Email"
+                placeholder="Email"
+                type="email"
+                {...register("email", {
+                  required: "Required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "invalid email address",
+                  },
+                })}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {errors.email && errors.email.message}
+            </Grid>
+
+            <Grid>
+              <Input
+                bordered
+                label="Username"
+                placeholder="Username"
+                type={"text"}
+                {...register("Username", {
+                  required: "Required",
+                })}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              {errors.Username && errors.Username.message}
+            </Grid>
 
             <Grid.Container gap={3} justify="center">
               <Grid>
@@ -143,6 +138,7 @@ export default function FormInput() {
           <Button color={"error"}>Cancel</Button>
         </form>
       </Card>
+      </Grid.Container>
     </Container>
   );
 }
